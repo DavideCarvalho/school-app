@@ -1,1 +1,1 @@
-export {SchoolDashboardPage} from './pages';
+export { SchoolDashboardPage } from './pages';

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as Yup from 'yup';
-import {useFormik} from 'formik';
+import { useFormik } from 'formik';
 import { useHistory } from 'react-router-dom';
-import {FormField} from '../../components';
+import { FormField } from '../../components';
+import { loginUser } from './LoginForm.service';
 
 interface LoginForm {
   email: string;
@@ -20,40 +21,57 @@ const LoginSchema = Yup.object().shape({
 });
 
 export const LoginForm: React.FC = () => {
-  let history = useHistory();
-  const {errors, handleSubmit, handleChange, values} = useFormik<LoginForm>({
+  const history = useHistory();
+  const [showUserNotFound, setshowUserNotFound] = useState(false);
+  const { errors, handleSubmit, handleChange, values } = useFormik<LoginForm>({
     initialValues: {
       email: '',
       password: '',
     },
     validationSchema: LoginSchema,
-    onSubmit: values => {
-      console.log(JSON.stringify(values, null, 2));
-      history.push('school/dashboard');
+    onSubmit: async ({ email, password }) => {
+      setshowUserNotFound(false);
+      try {
+        await loginUser(email, password);
+        history.push('school/dashboard');
+      } catch (e) {
+        if (e.code === 'auth/user-not-found') {
+          setshowUserNotFound(true);
+        }
+      }
     },
   });
   return (
     <form onSubmit={handleSubmit}>
-      <FormField id="email"
-                 name="email"
-                 title="Email"
-                 type="email"
-                 placeholder="some@email.com"
-                 iconCode="fa-user"
-                 onChange={handleChange}
-                 value={values.email}
-                 error={errors.email}
+      <FormField
+        id="email"
+        name="email"
+        title="Email"
+        type="email"
+        placeholder="some@email.com"
+        iconCode="fa-user"
+        onChange={handleChange}
+        className="text-colors"
+        value={values.email}
+        error={errors.email}
       />
-      <FormField id="password"
-                 name="password"
-                 title="Password"
-                 type="password"
-                 iconCode="fa-key"
-                 onChange={handleChange}
-                 value={values.password}
-                 error={errors.password}
+      <FormField
+        id="password"
+        name="password"
+        title="Password"
+        type="password"
+        iconCode="fa-key"
+        onChange={handleChange}
+        className="text-colors"
+        value={values.password}
+        error={errors.password}
       />
-      <button className="button is-light is-info is-fullwidth" type="submit">Entrar</button>
+      {showUserNotFound && (
+        <p className="help is-danger has-text-weight-bold has-text-centered">Usuário não encontrado</p>
+      )}
+      <button className="button is-light is-info is-fullwidth" type="submit">
+        Entrar
+      </button>
     </form>
-  )
+  );
 };
