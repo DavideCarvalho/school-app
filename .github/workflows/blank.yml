@@ -37,6 +37,8 @@ jobs:
           name: public
       - name: Go to public folder
         run: cd ./public
+      - name: show current folder
+        run: ls
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
