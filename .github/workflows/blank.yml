@@ -35,7 +35,8 @@ jobs:
         uses: actions/download-artifact@master
         with:
           name: public
-          path: ./
+      - name: Go to public folder
+        run: cd ./public
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
