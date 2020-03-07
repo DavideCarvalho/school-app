@@ -47,6 +47,7 @@ jobs:
         uses: actions/download-artifact@master
         with:
           name: build
+          path: artifact
       - name: show current folder
         run: ls
       - name: Go to public folder
