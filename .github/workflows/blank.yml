@@ -51,7 +51,7 @@ jobs:
       - name: show current folder
         run: ls
       - name: Go to public folder
-        run: cd ./artifact
+        run: cd artifact
       - name: show current folder
         run: ls
       - name: Deploy to Firebase
