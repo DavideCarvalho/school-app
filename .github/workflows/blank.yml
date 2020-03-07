@@ -34,7 +34,7 @@ jobs:
       - name: Archive Production Artifact
         uses: actions/upload-artifact@master
         with:
-          name: artifact
+          name: build
           path: ./
   deploy:
     name: Deploy
@@ -46,7 +46,9 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@master
         with:
-          name: artifact
+          name: build
+      - name: show current folder
+        run: ls
       - name: Go to public folder
         run: cd ./public
       - name: show current folder
