@@ -35,7 +35,7 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: build
-          path: ./
+          path: build
   deploy:
     name: Deploy
     needs: build
@@ -47,11 +47,6 @@ jobs:
         uses: actions/download-artifact@master
         with:
           name: build
-          path: artifact
-      - name: show current folder
-        run: ls
-      - name: Go to public folder
-        run: cd artifact
       - name: show current folder
         run: ls
       - name: Deploy to Firebase
