@@ -36,7 +36,7 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@master
         with:
-          name: public
+          name: build
       - name: Go to public folder
         run: cd ./public
       - name: show current folder
