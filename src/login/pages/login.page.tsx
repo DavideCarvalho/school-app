@@ -10,7 +10,7 @@ export const LoginPage: React.FC = () => {
           <div className="columns">
             <div className="column is-4 is-offset-4 login-card-background-color has-rounded-borders">
               <p className="has-text-centered title">SchoolApp</p>
-              <LoginForm />
+              <LoginForm/>
             </div>
           </div>
         </div>

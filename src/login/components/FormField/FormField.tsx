@@ -14,17 +14,17 @@ interface FormFieldProps {
 }
 
 export const FormField: React.FC<FormFieldProps> = ({
-  title,
-  type = 'text',
-  placeholder = '',
-  className = '',
-  value,
-  onChange,
-  id,
-  name,
-  error,
-  iconCode,
-}) => {
+                                                      title,
+                                                      type = 'text',
+                                                      placeholder = '',
+                                                      className = '',
+                                                      value,
+                                                      onChange,
+                                                      id,
+                                                      name,
+                                                      error,
+                                                      iconCode,
+                                                    }) => {
   const [useDangerClassName, setUseDangerClassName] = useState('');
   useEffect(() => {
     if (error) {
@@ -47,7 +47,7 @@ export const FormField: React.FC<FormFieldProps> = ({
           value={value}
         />
         <span className="icon is-small is-left">
-          <i className={`fas ${iconCode}`} />
+          <i className={`fas ${iconCode}`}/>
         </span>
         <p className="help is-danger has-text-weight-bold">{error}</p>
       </div>

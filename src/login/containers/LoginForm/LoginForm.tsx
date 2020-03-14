@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
-import { useHistory } from 'react-router-dom';
 import { FormField } from '../../components';
 import { loginUser } from './LoginForm.service';
 
@@ -21,7 +20,6 @@ const LoginSchema = Yup.object().shape({
 });
 
 export const LoginForm: React.FC = () => {
-  const history = useHistory();
   const [showUserNotFound, setshowUserNotFound] = useState(false);
   const { errors, handleSubmit, handleChange, values } = useFormik<LoginForm>({
     initialValues: {
@@ -33,9 +31,8 @@ export const LoginForm: React.FC = () => {
       setshowUserNotFound(false);
       try {
         await loginUser(email, password);
-        history.push('school/dashboard');
       } catch (e) {
-        if (e.code === 'auth/user-not-found') {
+        if (e.code === 'auth/user-not-found' || e.code === 'auth/wrong-password') {
           setshowUserNotFound(true);
         }
       }
@@ -69,7 +66,7 @@ export const LoginForm: React.FC = () => {
       {showUserNotFound && (
         <p className="help is-danger has-text-weight-bold has-text-centered">Usuário não encontrado</p>
       )}
-      <button className="button is-light is-info is-fullwidth" type="submit">
+      <button className="button is-info is-fullwidth" type="submit">
         Entrar
       </button>
     </form>

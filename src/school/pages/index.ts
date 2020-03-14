@@ -1,2 +1,2 @@
-export {SchoolPage} from './School.page';
-export {SchoolDashboardPage} from './SchoolDashboard.page';
+export { SchoolPage } from './SchoolPage/School.page';
+export { SchoolDashboardPage } from './SchoolDashboardPage/SchoolDashboard.page';

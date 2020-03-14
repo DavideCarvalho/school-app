@@ -14,5 +14,5 @@ export const Nav: React.FC = () => {
         </div>
       </div>
     </nav>
-  )
+  );
 };

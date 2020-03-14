@@ -1,0 +1,1 @@
+export { SchoolDashboardCard } from './SchoolDashboardCard';
