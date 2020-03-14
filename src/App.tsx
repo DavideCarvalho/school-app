@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+import firebase from 'firebase';
 import {Route, Switch, useHistory, useLocation} from 'react-router-dom';
 import {Actions, State, useStoreActions, useStoreState} from 'easy-peasy';
 import {LoginPage} from './login/pages';
@@ -11,9 +12,13 @@ interface Redirects {
   [userType: string]: string;
 }
 
-interface UserDocument {
+interface SchoolDocument {
+  city: string
+}
+
+interface UserDocument extends firebase.firestore.DocumentData {
   name: string;
-  school: string;
+  school: firebase.firestore.DocumentSnapshot<SchoolDocument>;
   type: string;
 }
 
@@ -33,12 +38,17 @@ const App: React.FC = () => {
         closeSession();
         return;
       }
-      const documentSnapshot = await firestore
+      const userDocumentSnapshot: firebase.firestore.DocumentSnapshot<UserDocument> = await firestore
         .collection('users')
         .doc(user?.email!)
-        .get();
-      const userData: UserDocument = documentSnapshot.data() as UserDocument;
-      startSession({ email: user.email!, name: userData.name, type: userData.type });
+        .get() as firebase.firestore.DocumentSnapshot<UserDocument>;
+      const userData: UserDocument = userDocumentSnapshot.data() as UserDocument;
+      const schoolDocumentSnapshot: firebase.firestore.DocumentSnapshot<SchoolDocument> = await firestore
+        .collection('schools')
+        .doc(userData.school.id)
+        .get() as firebase.firestore.DocumentSnapshot<SchoolDocument>;
+      const userSchoolData: SchoolDocument = schoolDocumentSnapshot.data() as SchoolDocument;
+      startSession({ email: user.email!, name: userData.name, type: userData.type, school: { id: userData.school.id, ...userSchoolData } });
     });
     return () => unsubscribe();
   }, [closeSession, startSession, history]);
