@@ -20,7 +20,8 @@ const LoginSchema = Yup.object().shape({
 });
 
 export const LoginForm: React.FC = () => {
-  const [showUserNotFound, setshowUserNotFound] = useState(false);
+  const [showUserNotFound, setshowUserNotFound] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<string>('');
   const { errors, handleSubmit, handleChange, values } = useFormik<LoginForm>({
     initialValues: {
       email: '',
@@ -29,9 +30,11 @@ export const LoginForm: React.FC = () => {
     validationSchema: LoginSchema,
     onSubmit: async ({ email, password }) => {
       setshowUserNotFound(false);
+      setIsLoading('is-loading');
       try {
         await loginUser(email, password);
       } catch (e) {
+        setIsLoading('');
         if (e.code === 'auth/user-not-found' || e.code === 'auth/wrong-password') {
           setshowUserNotFound(true);
         }
@@ -66,7 +69,7 @@ export const LoginForm: React.FC = () => {
       {showUserNotFound && (
         <p className="help is-danger has-text-weight-bold has-text-centered">Usuário não encontrado</p>
       )}
-      <button className="button is-info is-fullwidth" type="submit">
+      <button className={`button is-info is-fullwidth ${isLoading}`} type="submit">
         Entrar
       </button>
     </form>
