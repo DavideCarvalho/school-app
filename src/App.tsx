@@ -51,7 +51,8 @@ const App: React.FC = () => {
       startSession({ email: user.email!, name: userData.name, type: userData.type, school: { id: userData.school.id, ...userSchoolData } });
     });
     return () => unsubscribe();
-  }, [closeSession, startSession, history]);
+    // eslint-disable-next-line
+  }, []);
   useEffect(() => {
     if (fetching) return;
     if (!type) {
@@ -68,7 +69,7 @@ const App: React.FC = () => {
         <LoginPage />
       </Route>
       <Route path="/escola/*">
-        <SchoolPage />
+        { type && <SchoolPage /> }
       </Route>
     </Switch>
   );
