@@ -3,6 +3,9 @@ import 'bulma-divider/dist/css/bulma-divider.min.css';
 import { firestore } from '../../../utils/firebase';
 import firebase from 'firebase';
 import { Loader } from '../../../common/components/loader';
+import {State, useStoreState} from "easy-peasy";
+import {StoreModel} from "../../../store";
+import {SchoolModel} from "../../../store/LoggedUserStore";
 
 interface UserDocument {
   name: string;
@@ -38,8 +41,9 @@ function transformDocumentArrayIntoProfessorArray(
 export const SchoolAdminProfessorPage: React.FC = () => {
   const [data, setData] = useState<UserDocumentWithEmail[]>([]);
   const [isLoading, setIsLoading] = useState<LoadingState>({ loading: true, fetching: true, success: false, error: false });
+  const school = useStoreState<State<StoreModel>, SchoolModel>(({ loggedUser }) => loggedUser.school!);
   useEffect(() => {
-    const schoolRef = firestore.collection('schools').doc('etec-santos');
+    const schoolRef = firestore.collection('schools').doc(school.id);
     const unsubscribe = firestore
       .collection('users')
       .where('school', '==', schoolRef)
@@ -48,9 +52,8 @@ export const SchoolAdminProfessorPage: React.FC = () => {
         const professors = snap.docs.map<UserDocumentWithEmail>(transformDocumentArrayIntoProfessorArray);
         setData(professors);
       });
-
     return () => unsubscribe();
-  }, [setData, isLoading, setIsLoading]);
+  }, [setData, isLoading, setIsLoading, school]);
   return (
     <div className="container">
       <div className="columns">
