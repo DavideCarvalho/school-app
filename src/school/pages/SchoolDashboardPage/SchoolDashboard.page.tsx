@@ -9,9 +9,7 @@ export const SchoolDashboardPage: React.FC = () => {
           <p className="has-text-centered title">Dashboard</p>
           <div className="container">
             <div className="columns is-multiline is-centered">
-              <div className="column is-4">
-                <SchoolDashboardManagementCard/>
-              </div>
+              <SchoolDashboardManagementCard/>
             </div>
           </div>
         </div>

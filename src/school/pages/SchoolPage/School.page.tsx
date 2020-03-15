@@ -1,10 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { SchoolDashboardPage } from '../SchoolDashboardPage';
 import { elastic as Menu } from 'react-burger-menu';
-import './SchoolPage.scss';
+import { SchoolDashboardPage } from '../SchoolDashboardPage';
 import { SchoolAdminProfessorPage } from '../SchoolAdminProfessorPage';
+import { SchoolAdminClassesPage } from '../SchoolAdminClassesPage';
 import { auth } from '../../../utils/firebase';
+import './SchoolPage.scss';
 
 async function logout(): Promise<void> {
   await auth.signOut();
@@ -26,6 +27,9 @@ export const SchoolPage: React.FC = () => {
                 </Route>
                 <Route path="/escola/admin/professores">
                   <SchoolAdminProfessorPage />
+                </Route>
+                <Route path="/escola/admin/aulas">
+                  <SchoolAdminClassesPage />
                 </Route>
               </Switch>
             </Router>
