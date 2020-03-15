@@ -68,7 +68,7 @@ export const SchoolAdminProfessorPage: React.FC = () => {
     <div className="container">
       <div className="columns">
         <div className="column is-8 is-offset-2">
-          <p className="has-text-centered title">School Admin Professor Page</p>
+          <p className="has-text-centered title">Professores</p>
           <div className="is-divider"/>
           <Loader active={isLoading.fetching}/>
           {isLoading.success && !data.length && <p>Não há nenhum professor</p>}
