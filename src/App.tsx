@@ -34,6 +34,7 @@ const App: React.FC = () => {
   const { type, fetching } = useStoreState(({ loggedUser }: State<StoreModel>) => loggedUser);
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async user => {
+      console.log(user);
       if (!user) {
         closeSession();
         return;
